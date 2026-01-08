@@ -91,13 +91,13 @@ If copy is long, technical, or marketing-heavy, revise it.
 
 ---
 
-### docs/AGENTS.md (this file)
+### AGENTS.md (this file)
 - Defines how agents must behave
 - Sets non-negotiable rules
 - Explains decision authority
 
 If there is a conflict between documents, resolve it in this order:
-1. docs/AGENTS.md
+1. AGENTS.md
 2. docs/STRUCTURE.md
 3. docs/PRODUCT_CONTEXT.md
 4. All other docs

@@ -10,9 +10,9 @@ The site exists to:
 This is a **sales-driven site**, not a brochure.
 
 Before writing any code or copy:
-1. Read `PRODUCT_CONTEXT.md`
-2. Read `AGENT_RULES.md`
-3. Follow `SITE_STRUCTURE.md`
+1. Read `docs/PRODUCT_CONTEXT.md`
+2. Read `docs/AGENT_RULES.md`
+3. Follow `docs/STRUCTURE.md`
 
 If something is unclear, default to **simplicity and clarity**.
 

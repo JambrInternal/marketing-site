@@ -26,7 +26,7 @@ If a change does none of these, do not make it.
 This repo uses multiple Markdown documents to prevent agents from re-deciding
 product, scope, or tone. Each document has a specific purpose.
 
-### PRODUCT_CONTEXT.md
+### docs/PRODUCT_CONTEXT.md
 - Defines what the business does
 - Defines what the business does not do
 - Defines the primary buyer and outcome
@@ -40,7 +40,7 @@ You must not contradict this file.
 
 ---
 
-### BUILDING.md
+### docs/BUILDING.md
 - Defines the philosophy for building the site
 - Defines v1 scope
 - Explicitly lists what must not be built
@@ -53,7 +53,7 @@ If something is not allowed here, do not do it.
 
 ---
 
-### SITE_STRUCTURE.md
+### docs/STRUCTURE.md
 - Defines which pages exist
 - Defines homepage section order
 - Locks the call to action
@@ -67,7 +67,7 @@ Do not add pages or reorder sections.
 
 ---
 
-### BRAND_GUIDELINES.md
+### docs/BRAND_GUIDELINES.md
 - Defines tone, personality, and visual direction
 
 Use this file when:
@@ -79,7 +79,7 @@ If something feels flashy, clever, or trendy, it likely violates this file.
 
 ---
 
-### COPY_RULES.md
+### docs/COPY_RULES.md
 - Defines how copy must be written
 - Sets language and length constraints
 
@@ -91,15 +91,15 @@ If copy is long, technical, or marketing-heavy, revise it.
 
 ---
 
-### AGENTS.md (this file)
+### docs/AGENTS.md (this file)
 - Defines how agents must behave
 - Sets non-negotiable rules
 - Explains decision authority
 
 If there is a conflict between documents, resolve it in this order:
-1. AGENTS.md
-2. SITE_STRUCTURE.md
-3. PRODUCT_CONTEXT.md
+1. docs/AGENTS.md
+2. docs/STRUCTURE.md
+3. docs/PRODUCT_CONTEXT.md
 4. All other docs
 
 ---

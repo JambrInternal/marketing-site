@@ -17,6 +17,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY || vars.NEXT_PUBLIC_POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST || vars.NEXT_PUBLIC_POSTHOG_HOST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,12 +34,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check PostHog env
+        run: |
+          if [ -n "${NEXT_PUBLIC_POSTHOG_KEY}" ]; then
+            echo "PostHog key: set"
+          else
+            echo "PostHog key: missing"
+          fi
+          if [ -n "${NEXT_PUBLIC_POSTHOG_HOST}" ]; then
+            echo "PostHog host: set"
+          else
+            echo "PostHog host: default"
+          fi
+
       - name: Build
         run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
-          NEXT_PUBLIC_POSTHOG_KEY: ${{ vars.NEXT_PUBLIC_POSTHOG_KEY }}
-          NEXT_PUBLIC_POSTHOG_HOST: ${{ vars.NEXT_PUBLIC_POSTHOG_HOST }}
 
       - name: Debug Pages configuration
         env:

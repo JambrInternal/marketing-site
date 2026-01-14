@@ -54,7 +54,7 @@ To set a custom domain later:
 - Configure it in `Settings → Pages`.
 - Add `public/CNAME` when the domain is ready.
 
-Optional repo variables for PostHog:
+Optional repo variables or secrets for PostHog:
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_POSTHOG_HOST` (defaults to `https://app.posthog.com`)
 

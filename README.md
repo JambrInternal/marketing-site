@@ -46,6 +46,18 @@ npm run build
 npm run start
 ```
 
+## Deployment
+
+GitHub Actions builds a static export and deploys to GitHub Pages.
+
+To set a custom domain later:
+- Configure it in `Settings → Pages`.
+- Add `public/CNAME` when the domain is ready.
+
+Optional repo variables for PostHog:
+- `NEXT_PUBLIC_POSTHOG_KEY`
+- `NEXT_PUBLIC_POSTHOG_HOST` (defaults to `https://app.posthog.com`)
+
 ## File layout
 
 - `app/` (Next.js routes and layout)

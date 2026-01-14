@@ -9,6 +9,9 @@
   --border: #d1d6db;
   --radius: 6px;
   --max-width: 1120px;
+  --header-height: 72px;
+  --logo-size-header: 26px;
+  --logo-size-inline: 32px;
   --space-1: 8px;
   --space-2: 12px;
   --space-3: 16px;
@@ -89,6 +92,7 @@ button:focus-visible {
   background: linear-gradient(120deg, rgba(11, 30, 45, 0.96), rgba(47, 76, 95, 0.96));
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   transition: background 180ms ease, border-color 180ms ease;
+  min-height: var(--header-height);
 }
 
 .site-header.is-scrolled {
@@ -105,24 +109,50 @@ button:focus-visible {
   flex-wrap: wrap;
 }
 
-.logo {
+.brand {
+  --brand-size: var(--logo-size-header);
   display: inline-flex;
+  flex-direction: row;
   align-items: center;
+  flex-wrap: nowrap;
   gap: var(--space-2);
+  white-space: nowrap;
+  height: var(--brand-size);
+  font-size: var(--brand-size);
+  line-height: 1;
   font-weight: 700;
   letter-spacing: 0.2px;
   text-decoration: none;
   color: var(--ink-900);
 }
 
-.logo img {
-  width: 28px;
-  height: 28px;
-  flex-shrink: 0;
+.brand--header {
+  color: #ffffff;
+  height: 100%;
 }
 
-.site-header .logo {
-  color: #ffffff;
+.brand--inline {
+  --brand-size: var(--logo-size-inline);
+}
+
+.brand__mark {
+  display: inline-block;
+  width: auto;
+  height: 1em;
+  max-height: 100%;
+  max-width: 100%;
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+
+.brand__text {
+  display: inline-block;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.brand--header .brand__mark {
+  height: 100%;
 }
 
 .nav {
@@ -325,6 +355,16 @@ h3 {
   padding: var(--space-4);
 }
 
+.media-frame.has-media {
+  padding: 0;
+  background: #ffffff;
+}
+
+.media-frame.has-media .media-fit {
+  width: 100%;
+  height: 100%;
+}
+
 .media-frame span {
   color: var(--gray-500);
   font-weight: 500;
@@ -333,11 +373,13 @@ h3 {
   font-size: 0.8rem;
 }
 
-.media-frame img {
+.media-fit {
   max-width: 100%;
-  max-height: 180px;
+  max-height: 100%;
   width: auto;
   height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 .card {
@@ -404,9 +446,18 @@ h3 {
 }
 
 @media (min-width: 768px) {
+  :root {
+    --logo-size-header: 28px;
+  }
+
   .header-inner {
-    padding: var(--space-4) 0;
+    height: 100%;
+    padding: 0;
     flex-wrap: nowrap;
+  }
+
+  .site-header {
+    height: var(--header-height);
   }
 
   .site-header .nav {
@@ -467,7 +518,3 @@ h3 {
     transform: none;
   }
 }
-  .logo img {
-    width: 32px;
-    height: 32px;
-  }

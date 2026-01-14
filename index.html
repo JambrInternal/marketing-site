@@ -14,38 +14,42 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     >
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
-    <link rel="icon" href="/favicon/favicon.ico">
-    <link rel="manifest" href="/favicon/site.webmanifest">
-    <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#25263b">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon-dark.svg" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png">
+    <link rel="icon" href="favicon/favicon.ico">
+    <link rel="manifest" href="favicon/site.webmanifest">
+    <link rel="mask-icon" href="favicon/safari-pinned-tab.svg" color="#25263b">
     <meta name="msapplication-TileColor" content="#25263b">
     <meta name="theme-color" content="#25263b">
-    <link rel="stylesheet" href="/assets/styles.css">
+    <meta name="posthog-key" content="phc_hHPNgvmoWtzsSRGtOHC1M8o8w2VGgYjrXMlEQezHUr2">
+    <meta name="posthog-host" content="https://app.posthog.com">
+    <link rel="stylesheet" href="assets/styles.css">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header">
       <div class="wrap header-inner">
-        <a class="logo" href="/">
+        <a class="brand brand--header" href="/">
           <img
-            src="/brand/agent-maple-icon-mono-white-64x64.png"
-            srcset="/brand/agent-maple-icon-mono-white-64x64.png 64w, /brand/agent-maple-icon-mono-white-128x128.png 128w, /brand/agent-maple-icon-mono-white-256x256.png 256w"
-            sizes="(min-width: 768px) 32px, 28px"
-            alt=""
-            aria-hidden="true"
+            class="brand__mark"
+            src="brand/agent-maple-icon-mono-white-64x64.png"
+            srcset="brand/agent-maple-icon-mono-white-64x64.png 1x, brand/agent-maple-icon-mono-white-128x128.png 2x, brand/agent-maple-icon-mono-white-256x256.png 4x"
+            width="64"
+            height="64"
+            alt="Agent Maple"
             decoding="async"
           >
-          <span>Agent Maple</span>
         </a>
         <nav class="nav">
           <a href="/">Home</a>
           <a href="/how-it-works/">How it works</a>
           <a href="/privacy/">Privacy</a>
         </nav>
-        <a class="btn header-cta" href="/book/">Book a 25-min call</a>
+        <a class="btn header-cta" href="/book/">Book a Demo</a>
       </div>
     </header>
 
@@ -53,15 +57,15 @@
       <section class="section hero reveal" data-reveal>
         <div class="wrap hero-grid">
           <div>
-            <h1>Never miss an important call.</h1>
+            <h1>Never stall on-site again.</h1>
             <p class="lead">
-              An on-site agent for trades and field teams. It answers calls and texts
-              from your crew, handles scheduling and documentation requests, and
-              escalates when needed.
+              Agent Maple is an on-site agent for trades and field teams. It answers calls and texts
+              from your crew, handles scheduling and documentation inquiries, and
+              escalates to a human when needed.
             </p>
             <div class="hero-actions">
               <a class="btn" href="/book/">Book a 25-min call</a>
-              <p class="muted small">Quick fit check. No long pitch.</p>
+              <p class="muted small">Talk with the founders.</p>
             </div>
             <ul class="checklist">
               <li>Fewer missed requests and stalled jobs</li>
@@ -70,15 +74,17 @@
             </ul>
           </div>
           <div class="hero-card">
-            <div class="hero-card-header">Agent Maple logo</div>
-            <div class="media-frame">
+            <div class="hero-card-header">SMS and Email support</div>
+            <div class="media-frame has-media">
               <img
-                src="/brand/agent-maple-lockup-mono-dark.png"
-                alt="Agent Maple logo"
+                class="media-fit"
+                src="assets/media/agent-maple-demo.gif"
+                alt="Short demo of Agent Maple email follow-ups."
                 decoding="async"
+                loading="eager"
               >
             </div>
-            <p class="muted small">Dedicated line for crew calls and texts.</p>
+            <p class="muted small">Agent Maple works in parallel over phone, SMS, and Email.</p>
           </div>
         </div>
       </section>
@@ -119,16 +125,16 @@
           </div>
           <div class="media-block">
             <div>
-              <h3>Agent Maple icon</h3>
-              <p class="muted">Clear identity for crews and customers.</p>
+              <h3>Connect to the right human.</h3>
+              <p class="muted">Agent Maple connects you the right person when it doesn't know the answer.</p>
             </div>
-            <div class="media-frame">
+            <div class="media-frame has-media">
               <img
-                src="/brand/agent-maple-icon-mono-dark-256x256.png"
-                srcset="/brand/agent-maple-icon-mono-dark-128x128.png 128w, /brand/agent-maple-icon-mono-dark-256x256.png 256w, /brand/agent-maple-icon-mono-dark-512x512.png 512w"
-                sizes="160px"
-                alt="Agent Maple icon"
+                class="media-fit"
+                src="assets/media/agent_maple_demo_vacation_policy_fixed2.gif"
+                alt="Agent Maple escalates calls to the right person when it doesn't know the answer."
                 decoding="async"
+                loading="lazy"
               >
             </div>
           </div>
@@ -162,7 +168,7 @@
       <section class="section alt reveal" data-reveal>
         <div class="wrap">
           <h2>See how it works for your business.</h2>
-          <p class="lead">No inflated claims. We will show you how it works with your own business context. We'll cover it on the 25-min call.</p>
+          <p class="lead">No inflated claims. We will show you how it works with your own business context. We'll provide value before you pay anything.</p>
           <ul class="list">
             <li>See how it handles real crew requests.</li>
             <li>Review how scheduling and documentation would be used.</li>
@@ -175,7 +181,7 @@
         <div class="wrap cta-panel">
           <div>
             <h2>Book a 25-min call.</h2>
-            <p class="lead">Tell us where your crew gets stuck on scheduling, documentation, or urgent questions. We'll see if there's a fit.</p>
+            <p class="lead">We love to chat. Ask any questions about the agent, and tell us where your crew gets stuck. </p>
           </div>
           <a class="btn" href="/book/">Book a 25-min call</a>
         </div>
@@ -192,6 +198,6 @@
       </div>
     </footer>
 
-    <script src="/assets/scripts.js"></script>
+    <script src="assets/scripts.js"></script>
   </body>
 </html>

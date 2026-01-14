@@ -58,6 +58,10 @@ Optional repo variables for PostHog:
 - `NEXT_PUBLIC_POSTHOG_KEY`
 - `NEXT_PUBLIC_POSTHOG_HOST` (defaults to `https://app.posthog.com`)
 
+GitHub Pages builds use a base path of `/<repo-name>`. If you later add a
+custom domain and want root hosting, set `NEXT_PUBLIC_BASE_PATH` to `/` in the
+workflow or repo variables.
+
 ## File layout
 
 - `app/` (Next.js routes and layout)

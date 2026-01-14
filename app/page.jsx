@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Footer from "../components/Footer";
+import { withBasePath } from "../lib/basePath";
 
 export const metadata = {
   title: "Agent Maple | Never miss an important call",
@@ -37,7 +38,7 @@ export default function HomePage() {
             <div className="media-frame has-media">
               <img
                 className="media-fit"
-                src="/media/agent-maple-demo.gif"
+                src={withBasePath("/media/agent-maple-demo.gif")}
                 alt="Short demo of Agent Maple email follow-ups."
                 decoding="async"
                 loading="eager"
@@ -98,7 +99,7 @@ export default function HomePage() {
             <div className="media-frame has-media">
               <img
                 className="media-fit"
-                src="/media/agent_maple_demo_vacation_policy_fixed2.gif"
+                src={withBasePath("/media/agent_maple_demo_vacation_policy_fixed2.gif")}
                 alt="Agent Maple escalates calls to the right person when it doesn't know the answer."
                 decoding="async"
                 loading="lazy"

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { withBasePath } from "../lib/basePath";
 
 export default function Header() {
   return (
@@ -7,8 +8,8 @@ export default function Header() {
         <Link className="brand brand--header" href="/">
           <img
             className="brand__mark"
-            src="/brand/agent-maple-icon-mono-white-64x64.png"
-            srcSet="/brand/agent-maple-icon-mono-white-64x64.png 1x, /brand/agent-maple-icon-mono-white-128x128.png 2x, /brand/agent-maple-icon-mono-white-256x256.png 4x"
+            src={withBasePath("/brand/agent-maple-icon-mono-white-64x64.png")}
+            srcSet={`${withBasePath("/brand/agent-maple-icon-mono-white-64x64.png")} 1x, ${withBasePath("/brand/agent-maple-icon-mono-white-128x128.png")} 2x, ${withBasePath("/brand/agent-maple-icon-mono-white-256x256.png")} 4x`}
             width="64"
             height="64"
             alt="Agent Maple"

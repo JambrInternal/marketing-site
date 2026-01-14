@@ -33,3 +33,9 @@ When in doubt:
 - Fewer pages
 - Shorter copy
 - One clear message
+
+## Implementation notes
+
+- The site runs on Next.js (app router).
+- Routes live in `app/` and shared UI lives in `components/`.
+- Static assets live in `public/`.

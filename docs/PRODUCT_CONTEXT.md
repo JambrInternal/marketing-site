@@ -1,5 +1,7 @@
 # Product Context
 
+Use this as the source of truth for product description and buyer framing.
+
 ## What this business is
 
 An on-site AI agent for trades, field-service teams, and industrial operators.

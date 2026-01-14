@@ -102,6 +102,12 @@ If there is a conflict between documents, resolve it in this order:
 3. docs/PRODUCT_CONTEXT.md
 4. All other docs
 
+### Implementation notes (current)
+
+- The site runs on Next.js (app router).
+- Pages live in `app/` and shared UI lives in `components/`.
+- Static assets live in `public/` (brand assets in `public/brand`, favicons in `public/favicon`, media in `public/media`).
+
 ---
 
 ## 2) Non-Negotiables

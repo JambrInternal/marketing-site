@@ -12,6 +12,12 @@ Optional:
 
 No other pages should be created in v1.
 
+Route mapping (current):
+- `/` -> `app/page.jsx`
+- `/how-it-works` -> `app/how-it-works/page.jsx`
+- `/book` -> `app/book/page.jsx`
+- `/privacy` -> `app/privacy/page.jsx`
+
 ## Homepage section order (do not reorder)
 
 1. Hero

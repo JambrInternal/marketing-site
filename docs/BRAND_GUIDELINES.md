@@ -33,3 +33,5 @@ Visuals should feel:
 - Industrial
 - Trustworthy
 - Clean
+
+Brand assets live in `public/brand` and `public/favicon`.

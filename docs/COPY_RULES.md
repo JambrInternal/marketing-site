@@ -45,3 +45,5 @@ If it takes more than:
 - 30 seconds to understand
 
 …it’s too long.
+
+Copy lives in `app/` page files. Keep edits short and direct.

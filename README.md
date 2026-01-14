@@ -11,34 +11,51 @@ This is a **sales-driven site**, not a brochure.
 
 Before writing any code or copy:
 1. Read `docs/PRODUCT_CONTEXT.md`
-2. Read `docs/AGENT_RULES.md`
+2. Read `AGENTS.md`
 3. Follow `docs/STRUCTURE.md`
 
 If something is unclear, default to **simplicity and clarity**.
 
 ## Local development
 
-No build step is required. Serve the repo root with any static file server.
-
-Example:
+If you use mise for tool management:
 
 ```
-python -m http.server 8000
+mise install
 ```
 
-Then open `http://localhost:8000` in a browser.
+Set PostHog env vars:
+
+```
+cp .env.example .env
+```
+
+Then set `NEXT_PUBLIC_POSTHOG_KEY` in `.env`.
+
+Install dependencies and run the dev server:
+
+```
+npm install
+npm run dev
+```
+
+Build and run production:
+
+```
+npm run build
+npm run start
+```
 
 ## File layout
 
-- `index.html` (Home)
-- `how-it-works/index.html` (Optional)
-- `book/index.html`
-- `privacy/index.html`
-- `assets/styles.css`
-- `assets/scripts.js`
+- `app/` (Next.js routes and layout)
+- `components/` (shared UI)
+- `public/` (static assets)
+- `scripts/` (small repo checks)
+- `.env.example` (PostHog public key + host template)
 
 ## Updating brand and booking details
 
-- Brand name appears in `index.html`, `how-it-works/index.html`, `book/index.html`, and `privacy/index.html`.
-- Booking link lives in `book/index.html`.
-- Contact emails live in `privacy/index.html`.
+- Brand assets live in `public/brand` and `public/favicon`.
+- Booking link lives in `app/book/page.jsx`.
+- Contact emails live in `app/privacy/page.jsx`.

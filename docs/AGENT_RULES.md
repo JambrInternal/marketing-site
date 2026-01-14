@@ -27,3 +27,9 @@ Agents may NOT:
 - Does this move the reader toward booking a call?
 
 If any answer is “no”, revise.
+
+## Repo facts (current)
+
+- The site uses Next.js app router.
+- Page copy lives in `app/` and shared layout/components live in `components/`.
+- Static assets live in `public/` (brand assets in `public/brand` and favicons in `public/favicon`).

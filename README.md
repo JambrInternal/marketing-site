@@ -56,7 +56,8 @@ To set a custom domain later:
 
 Optional repo variables or secrets for PostHog:
 - `NEXT_PUBLIC_POSTHOG_KEY`
-- `NEXT_PUBLIC_POSTHOG_HOST` (defaults to `https://app.posthog.com`)
+- `NEXT_PUBLIC_POSTHOG_HOST` (defaults to `https://us.i.posthog.com`)
+- `NEXT_PUBLIC_POSTHOG_DEBUG` (`true` to log PostHog status in the console)
 
 GitHub Pages builds use a base path of `/<repo-name>`. If you later add a
 custom domain and want root hosting, set `NEXT_PUBLIC_BASE_PATH` to `/` in the

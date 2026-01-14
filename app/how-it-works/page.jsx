@@ -47,23 +47,20 @@ export default function HowItWorksPage() {
         <div className="wrap">
           <div className="grid cols-2">
             <div className="card">
-              <h3>After-hours coverage</h3>
-              <p>
-                Missed calls are captured and escalated only when needed, without
-                waking up the owner.
-              </p>
+              <h3>Prevent on-site delays</h3>
+              <p>Field questions get answered so crews can keep moving.</p>
             </div>
             <div className="card">
-              <h3>Daytime focus</h3>
-              <p>Routine requests are handled so crews stay on the job.</p>
+              <h3>Free up leadership time</h3>
+              <p>Routine requests are handled without pulling leaders off the job.</p>
             </div>
             <div className="card">
-              <h3>Clear escalation</h3>
-              <p>Escalations go to the right person at the right time.</p>
+              <h3>Stay aligned with other foremen</h3>
+              <p>Updates and answers stay consistent across crews.</p>
             </div>
             <div className="card">
-              <h3>Customer confidence</h3>
-              <p>Follow-up updates go out by call, text, or email.</p>
+              <h3>Keep generational knowledge</h3>
+              <p>Key answers and decisions stay available when experienced staff leave.</p>
             </div>
           </div>
         </div>

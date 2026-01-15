@@ -147,7 +147,7 @@ export default function HomePage() {
           <ul className="list">
             <li>See how it handles real crew requests.</li>
             <li>Review how scheduling and documentation would be used.</li>
-            <li>Decide if it fits before anything changes.</li>
+            <li>Decide if it fits before paying anything.</li>
           </ul>
         </div>
       </section>

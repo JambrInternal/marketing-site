@@ -273,6 +273,7 @@ h3 {
   display: grid;
   gap: var(--space-5);
   align-items: start;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .hero-actions {
@@ -334,6 +335,7 @@ h3 {
 .grid {
   display: grid;
   gap: var(--space-4);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .media-block {
@@ -341,13 +343,13 @@ h3 {
   gap: var(--space-4);
   align-items: center;
   margin-top: var(--space-5);
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .media-frame {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: linear-gradient(135deg, rgba(11, 30, 45, 0.08), rgba(11, 30, 45, 0.02));
-  min-height: 220px;
   aspect-ratio: 16 / 9;
   display: grid;
   place-items: center;
@@ -419,6 +421,7 @@ h3 {
   gap: var(--space-3);
   align-items: center;
   justify-items: start;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .booking-form {
@@ -528,6 +531,10 @@ h3 {
 
   .media-block {
     grid-template-columns: 0.9fr 1.1fr;
+  }
+
+  .media-frame {
+    min-height: 220px;
   }
 
   .cta-panel {

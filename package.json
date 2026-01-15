@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:e2e": "npm run build && playwright test"
   },
   "dependencies": {
     "@posthog/react": "^1.5.2",
@@ -16,6 +17,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.5"
   }

@@ -8,12 +8,8 @@ if (typeof window !== "undefined" && process.env.NEXT_PUBLIC_POSTHOG_KEY) {
     api_host:
       process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://app.posthog.com",
     capture_pageview: "history_change",
-<<<<<<< HEAD
     capture_pageleave: true,
     capture_exceptions: true
-=======
-    capture_pageleave: true
->>>>>>> origin/main
   });
 }
 

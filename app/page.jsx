@@ -44,6 +44,7 @@ export default function HomePage() {
                 priority
                 width={600}
                 height={400}
+                unoptimized
               />
             </div>
             <p className="muted small">
@@ -105,6 +106,7 @@ export default function HomePage() {
                 alt="Agent Maple escalates calls to the right person when it doesn't know the answer."
                 width={600}
                 height={400}
+                unoptimized
               />
             </div>
           </div>

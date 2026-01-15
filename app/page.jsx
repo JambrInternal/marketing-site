@@ -3,7 +3,7 @@ import BookCallLink from "../components/BookCallLink";
 import { withBasePath } from "../lib/basePath";
 
 export const metadata = {
-  title: "Agent Maple | Never miss an important call",
+  title: "Agent Maple | Get answers to your urgent questions",
   description:
     "Internal support for trades and field teams. Answers crew calls and texts, handles scheduling and documentation requests, and escalates when needed."
 };

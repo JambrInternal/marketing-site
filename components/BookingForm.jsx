@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { EMAIL_PATTERN, isWorkEmail } from "../lib/emailPolicy";
 
 const CALENDAR_URL = "https://calendar.app.google/48BjSXGNeWYYGK839";
@@ -32,6 +32,7 @@ const normalizePhone = (value) => value.trim();
 const countDigits = (value) => value.replace(/\D/g, "").length;
 
 export default function BookingForm() {
+  const [useNativeValidation, setUseNativeValidation] = useState(true);
   const [email, setEmail] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [phone, setPhone] = useState("");
@@ -39,6 +40,10 @@ export default function BookingForm() {
   const [linkedinError, setLinkedinError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setUseNativeValidation(false);
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -110,7 +115,13 @@ export default function BookingForm() {
   };
 
   return (
-    <form className="booking-form" onSubmit={handleSubmit} noValidate>
+    <form
+      className="booking-form"
+      onSubmit={handleSubmit}
+      action={CALENDAR_URL}
+      method="get"
+      noValidate={!useNativeValidation}
+    >
       <label className="field-label" htmlFor="booking-email">
         Work email
       </label>

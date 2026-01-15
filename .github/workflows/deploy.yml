@@ -47,8 +47,11 @@ jobs:
             echo "PostHog host: default"
           fi
 
-      - name: Build
-        run: npm run build
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Mobile layout tests
+        run: npm run test:e2e
 
       - name: Debug Pages configuration
         env:

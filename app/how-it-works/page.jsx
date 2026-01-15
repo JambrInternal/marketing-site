@@ -35,8 +35,7 @@ export default function HowItWorksPage() {
             <div className="card">
               <h3>3. Call or text it like a coworker</h3>
               <p>
-                It knows who you are and learns how you work over time. Escalates
-                when needed.
+                It knows who you are and learns how you work over time.
               </p>
             </div>
           </div>

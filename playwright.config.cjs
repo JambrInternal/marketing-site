@@ -4,7 +4,8 @@ const port = Number(process.env.PLAYWRIGHT_PORT || 3000);
 const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
 const normalizedBasePath =
   rawBasePath === "/" ? "" : rawBasePath.replace(/\/$/, "");
-const baseURL = `http://127.0.0.1:${port}${normalizedBasePath}`;
+const basePathSegment = normalizedBasePath ? `${normalizedBasePath}/` : "/";
+const baseURL = `http://127.0.0.1:${port}${basePathSegment}`;
 
 module.exports = defineConfig({
   testDir: "tests",

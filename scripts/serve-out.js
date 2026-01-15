@@ -4,6 +4,9 @@ const path = require("path");
 
 const outDir = path.resolve(__dirname, "..", "out");
 const port = Number(process.env.PLAYWRIGHT_PORT || process.env.PORT || 3000);
+const rawBasePath = process.env.NEXT_PUBLIC_BASE_PATH || "";
+const normalizedBasePath =
+  rawBasePath === "/" ? "" : rawBasePath.replace(/\/$/, "");
 
 const mimeTypes = {
   ".html": "text/html; charset=utf-8",
@@ -35,9 +38,26 @@ const serveFile = (filePath, res) => {
   fs.createReadStream(filePath).pipe(res);
 };
 
+const stripBasePath = (urlPath) => {
+  if (!normalizedBasePath) {
+    return urlPath || "/";
+  }
+  if (urlPath === normalizedBasePath) {
+    return "/";
+  }
+  if (urlPath.startsWith(`${normalizedBasePath}/`)) {
+    const strippedPath = urlPath.slice(normalizedBasePath.length);
+    return strippedPath || "/";
+  }
+  return urlPath || "/";
+};
+
 const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent(req.url.split("?")[0] || "/");
-  const normalizedPath = urlPath.endsWith("/") ? `${urlPath}index.html` : urlPath;
+  const strippedPath = stripBasePath(urlPath);
+  const normalizedPath = strippedPath.endsWith("/")
+    ? `${strippedPath}index.html`
+    : strippedPath;
   const filePath = toFilePath(normalizedPath);
 
   if (!filePath.startsWith(outDir)) {

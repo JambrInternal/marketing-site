@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import BookCallLink from "./BookCallLink";
 import { withBasePath } from "../lib/basePath";
@@ -7,13 +8,14 @@ export default function Header() {
     <header className="site-header">
       <div className="wrap header-inner">
         <Link className="brand brand--header" href="/">
-          <img
+          <Image
             className="brand__mark"
             src={withBasePath("/brand/agent-maple-wordmark-1line-white-textHalf.png")}
             width="1221"
             height="178"
             alt="Agent Maple"
-            decoding="async"
+            priority
+            unoptimized
           />
         </Link>
         <nav className="nav">

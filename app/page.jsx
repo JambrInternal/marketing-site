@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Footer from "../components/Footer";
 import BookCallLink from "../components/BookCallLink";
 import { withBasePath } from "../lib/basePath";
@@ -15,7 +16,7 @@ export default function HomePage() {
         <section className="section hero reveal" data-reveal>
         <div className="wrap hero-grid">
           <div>
-            <h1>Never stall on-site again.</h1>
+            <h1>Never wait on-site for info again.</h1>
             <p className="lead">
               Agent Maple is an on-site agent for trades and field teams. It
               answers calls and texts from your crew, handles scheduling and
@@ -36,12 +37,13 @@ export default function HomePage() {
           <div className="hero-card">
             <div className="hero-card-header">SMS and Email support</div>
             <div className="media-frame has-media">
-              <img
+              <Image
                 className="media-fit"
                 src={withBasePath("/media/agent-maple-demo.gif")}
                 alt="Short demo of Agent Maple email follow-ups."
-                decoding="async"
-                loading="eager"
+                priority
+                width={600}
+                height={400}
               />
             </div>
             <p className="muted small">
@@ -97,12 +99,12 @@ export default function HomePage() {
               </p>
             </div>
             <div className="media-frame has-media">
-              <img
+              <Image
                 className="media-fit"
                 src={withBasePath("/media/agent_maple_demo_vacation_policy_fixed2.gif")}
                 alt="Agent Maple escalates calls to the right person when it doesn't know the answer."
-                decoding="async"
-                loading="lazy"
+                width={600}
+                height={400}
               />
             </div>
           </div>

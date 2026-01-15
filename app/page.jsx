@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Footer from "../components/Footer";
+import BookCallLink from "../components/BookCallLink";
 import { withBasePath } from "../lib/basePath";
 
 export const metadata = {
@@ -22,9 +22,9 @@ export default function HomePage() {
               documentation inquiries, and escalates to a human when needed.
             </p>
             <div className="hero-actions">
-              <Link className="btn" href="/book">
+              <BookCallLink className="btn" href="/book" location="home_hero">
                 Book a 25-min call
-              </Link>
+              </BookCallLink>
               <p className="muted small">Talk with the founders.</p>
             </div>
             <ul className="checklist">
@@ -157,9 +157,9 @@ export default function HomePage() {
               your crew gets stuck.
             </p>
           </div>
-          <Link className="btn" href="/book">
+          <BookCallLink className="btn" href="/book" location="home_cta">
             Book a 25-min call
-          </Link>
+          </BookCallLink>
         </div>
       </section>
       </main>

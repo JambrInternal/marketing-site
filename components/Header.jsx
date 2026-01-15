@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BookCallLink from "./BookCallLink";
 import { withBasePath } from "../lib/basePath";
 
 export default function Header() {
@@ -21,9 +22,9 @@ export default function Header() {
           <Link href="/how-it-works">How it works</Link>
           <Link href="/privacy">Privacy</Link>
         </nav>
-        <Link className="btn header-cta" href="/book#schedule">
+        <BookCallLink className="btn header-cta" href="/book#schedule" location="header">
           Book a 25-min call
-        </Link>
+        </BookCallLink>
       </div>
     </header>
   );

@@ -13,7 +13,7 @@ const posthogSnippet = posthogKey
       posthogKey
     )}, {api_host: ${JSON.stringify(
       posthogHost
-    )}, defaults: "2025-11-30", capture_pageleave: true, person_profiles: "identified_only"});`
+    )}, defaults: "2025-11-30", capture_pageleave: true, capture_exceptions: true, person_profiles: "identified_only"});`
   : "";
 
 const posthogDebugSnippet = posthogDebug

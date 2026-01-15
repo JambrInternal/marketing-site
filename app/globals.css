@@ -421,6 +421,44 @@ h3 {
   justify-items: start;
 }
 
+.booking-form {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.field-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  background: #ffffff;
+  color: var(--ink-900);
+}
+
+.field-input::placeholder {
+  color: var(--gray-500);
+}
+
+.field-input[aria-invalid="true"] {
+  border-color: var(--accent-600);
+}
+
+.field-error {
+  margin: 0;
+  color: var(--accent-600);
+  font-size: 0.9rem;
+}
+
+.booking-form .btn {
+  width: 100%;
+}
+
 .footer {
   padding: var(--space-5) 0;
   border-top: 1px solid var(--border);
@@ -495,6 +533,10 @@ h3 {
   .cta-panel {
     grid-template-columns: auto 1fr;
     justify-items: start;
+  }
+
+  .booking-form .btn {
+    width: auto;
   }
 
   .footer-inner {

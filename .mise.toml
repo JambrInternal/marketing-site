@@ -1,2 +1,6 @@
 [tools]
 node = "20"
+
+[tasks.lint]
+description = "Run ESLint in strict mode (no warnings)."
+run = "npm run lint -- --max-warnings=0"

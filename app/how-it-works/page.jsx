@@ -1,5 +1,5 @@
-import Link from "next/link";
 import Footer from "../../components/Footer";
+import BookCallLink from "../../components/BookCallLink";
 
 export const metadata = {
   title: "How it works | Agent Maple",
@@ -75,9 +75,9 @@ export default function HowItWorksPage() {
               urgent questions. We&apos;ll see if there&apos;s a fit.
             </p>
           </div>
-          <Link className="btn" href="/book">
+          <BookCallLink className="btn" href="/book" location="how_it_works_cta">
             Book a 25-min call
-          </Link>
+          </BookCallLink>
         </div>
       </section>
       </main>

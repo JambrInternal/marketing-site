@@ -1,6 +1,6 @@
 const { test, expect } = require("@playwright/test");
 
-const pages = ["/", "/how-it-works/", "/book/", "/privacy/"];
+const pages = ["./", "how-it-works/", "book/", "privacy/"];
 
 const getOverflowWidths = () => ({
   documentScrollWidth: document.documentElement.scrollWidth,

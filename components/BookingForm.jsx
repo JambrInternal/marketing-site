@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { EMAIL_PATTERN, isWorkEmail } from "../lib/emailPolicy";
 
 const CALENDAR_URL = "https://calendar.app.google/48BjSXGNeWYYGK839";
@@ -40,10 +40,34 @@ export default function BookingForm() {
   const [linkedinError, setLinkedinError] = useState("");
   const [phoneError, setPhoneError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const resetTimerRef = useRef(null);
 
   useEffect(() => {
     setUseNativeValidation(false);
   }, []);
+
+  useEffect(() => {
+    const handlePageShow = () => {
+      setIsSubmitting(false);
+      setEmailError("");
+      setLinkedinError("");
+      setPhoneError("");
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+    return () => {
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, []);
+
+  useEffect(
+    () => () => {
+      if (resetTimerRef.current) {
+        window.clearTimeout(resetTimerRef.current);
+      }
+    },
+    []
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -85,6 +109,12 @@ export default function BookingForm() {
     }
 
     setIsSubmitting(true);
+    if (resetTimerRef.current) {
+      window.clearTimeout(resetTimerRef.current);
+    }
+    resetTimerRef.current = window.setTimeout(() => {
+      setIsSubmitting(false);
+    }, 8000);
 
     if (window.posthog?.identify) {
       const personProperties = { email: trimmedEmail };

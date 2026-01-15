@@ -15,6 +15,11 @@ Agents may:
 - Tighten copy
 - Simplify structure
 
+## Simplicity bias
+
+- If two approaches meet the same goal, choose the simpler design and simpler implementation.
+- If a simpler approach can deliver ~80% of the outcome, propose the scope tradeoff before adding complexity.
+
 Agents may NOT:
 - Redefine the product
 - Expand scope

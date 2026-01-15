@@ -6,16 +6,14 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     env:
       NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
@@ -53,39 +51,48 @@ jobs:
       - name: Mobile layout tests
         run: npm run test:e2e
 
-      - name: Debug Pages configuration
+      - name: Build static site
+        run: npm run build
+
+      - name: Prepare gh-pages branch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          echo "Repository: ${GITHUB_REPOSITORY}"
-          echo "Ref: ${GITHUB_REF}"
-          echo "SHA: ${GITHUB_SHA}"
-          for endpoint in "repos/${GITHUB_REPOSITORY}" "repos/${GITHUB_REPOSITORY}/pages"; do
-            url="https://api.github.com/${endpoint}"
-            status=$(curl -sS -o /tmp/api.json -w "%{http_code}" \
-              -H "Authorization: Bearer ${GH_TOKEN}" \
-              -H "Accept: application/vnd.github+json" \
-              -H "X-GitHub-Api-Version: 2022-11-28" \
-              "${url}")
-            echo "GET ${url} -> ${status}"
-            cat /tmp/api.json
-            echo ""
-          done
+          rm -rf .gh-pages
+          if git ls-remote --exit-code --heads "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages >/dev/null 2>&1; then
+            git clone --branch gh-pages --single-branch \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .gh-pages
+          else
+            mkdir .gh-pages
+            pushd .gh-pages
+            git init
+            git checkout -b gh-pages
+            git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            popd
+          fi
 
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
+      - name: Sync static export
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Missing out directory."
+            exit 1
+          fi
+          find .gh-pages -mindepth 1 -maxdepth 1 ! -name ".git" -exec rm -rf {} +
+          cp -a out/. .gh-pages/
+          if [ -f public/CNAME ]; then
+            cp public/CNAME .gh-pages/CNAME
+          fi
+          touch .gh-pages/.nojekyll
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit and push
+        run: |
+          cd .gh-pages
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No changes to deploy."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Deploy site"
+          git push origin gh-pages

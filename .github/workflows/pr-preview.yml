@@ -2,69 +2,161 @@ name: PR Preview
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
-  pull_request_target:
     types: [opened, synchronize, reopened, closed]
 
 permissions:
-  contents: read
+  contents: write
+  issues: write
+  pull-requests: write
 
 concurrency:
-  group: pr-preview-${{ github.event_name }}-${{ github.event.pull_request.number }}
+  group: pr-preview-${{ github.event.pull_request.number }}
   cancel-in-progress: true
 
 jobs:
-  comment:
-    if: github.event_name == 'pull_request_target' && github.event.action != 'closed'
+  deploy:
+    if: github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      issues: write
-      pull-requests: write
+    env:
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+      GITHUB_EVENT_ACTION: ${{ github.event.action }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY || vars.NEXT_PUBLIC_POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST || vars.NEXT_PUBLIC_POSTHOG_HOST }}
+      NEXT_PUBLIC_POSTHOG_DEBUG: ${{ secrets.NEXT_PUBLIC_POSTHOG_DEBUG || vars.NEXT_PUBLIC_POSTHOG_DEBUG }}
     steps:
+      - name: Checkout PR head
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.HEAD_REPO }}
+          ref: ${{ env.HEAD_SHA }}
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Init debug log
+        run: |
+          {
+            echo "Repo: ${GITHUB_REPOSITORY}"
+            echo "PR: ${PR_NUMBER}"
+            echo "Head repo: ${HEAD_REPO}"
+            echo "Head sha: ${HEAD_SHA}"
+            echo "Event: ${GITHUB_EVENT_NAME}"
+            echo "Action: ${GITHUB_EVENT_ACTION}"
+            echo "Runner: ${RUNNER_OS}"
+          } > debug.log
+
+      - name: Compute preview base path
+        run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          owner="${GITHUB_REPOSITORY%/*}"
+          pr_number="${PR_NUMBER}"
+          if [ -f public/CNAME ]; then
+            domain="$(cat public/CNAME | tr -d '[:space:]')"
+            base_path="/previews/pr-${pr_number}"
+            preview_url="https://${domain}/previews/pr-${pr_number}/"
+          elif [ "${repo_name}" = "${owner}.github.io" ]; then
+            base_path="/previews/pr-${pr_number}"
+            preview_url="https://${owner}.github.io/previews/pr-${pr_number}/"
+          else
+            base_path="/${repo_name}/previews/pr-${pr_number}"
+            preview_url="https://${owner}.github.io/${repo_name}/previews/pr-${pr_number}/"
+          fi
+          echo "BASE_PATH=${base_path}" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_BASE_PATH=${base_path}" >> "$GITHUB_ENV"
+          echo "PREVIEW_URL=${preview_url}" >> "$GITHUB_ENV"
+          {
+            echo "Base path: ${base_path}"
+            echo "Preview URL: ${preview_url}"
+          } >> debug.log
+
+      - name: Build static site
+        run: |
+          set -o pipefail
+          npm run build 2>&1 | tee -a debug.log
+
+      - name: Log build output
+        run: |
+          echo "" >> debug.log
+          echo "Out root:" >> debug.log
+          ls -la out >> debug.log
+          if [ -d out/_next ]; then
+            echo "" >> debug.log
+            echo "Out _next:" >> debug.log
+            ls -la out/_next >> debug.log
+          fi
+
+      - name: Checkout gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          rm -rf .gh-pages
+          if git ls-remote --exit-code --heads "https://github.com/${GITHUB_REPOSITORY}.git" gh-pages >/dev/null 2>&1; then
+            git clone --branch gh-pages --single-branch \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" .gh-pages
+          else
+            mkdir .gh-pages
+            pushd .gh-pages
+            git init
+            git checkout -b gh-pages
+            git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            popd
+          fi
+
+      - name: Sync preview output
+        run: |
+          preview_dir=".gh-pages/previews/pr-${PR_NUMBER}"
+          rm -rf "${preview_dir}"
+          mkdir -p "${preview_dir}"
+          export_dir="out${BASE_PATH}"
+          if [ -d "${export_dir}" ]; then
+            cp -a "${export_dir}/." "${preview_dir}/"
+            if [ -d "out/_next" ] && [ ! -d "${preview_dir}/_next" ]; then
+              cp -a "out/_next" "${preview_dir}/_next"
+            fi
+          else
+            cp -a out/. "${preview_dir}/"
+          fi
+          touch .gh-pages/.nojekyll
+          echo "" >> debug.log
+          echo "Preview dir:" >> debug.log
+          ls -la "${preview_dir}" >> debug.log || true
+
+      - name: Commit preview
+        run: |
+          cd .gh-pages
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No preview changes to commit." >> ../debug.log
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Add preview for PR #${PR_NUMBER}" >> ../debug.log
+          git push origin gh-pages >> ../debug.log 2>&1
+
       - name: Comment preview URL
+        if: success()
         uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ env.PREVIEW_URL }}
         with:
           script: |
             const marker = '<!-- pr-preview -->';
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const prNumber = context.payload.pull_request.number;
-            const defaultBranch = context.payload.repository.default_branch;
-            let domain = null;
-
-            try {
-              const response = await github.rest.repos.getContent({
-                owner,
-                repo,
-                path: 'public/CNAME',
-                ref: defaultBranch,
-              });
-              if (response.data && response.data.content) {
-                domain = Buffer.from(response.data.content, response.data.encoding || 'base64')
-                  .toString('utf8')
-                  .trim();
-              }
-            } catch (error) {
-              if (error.status !== 404) {
-                throw error;
-              }
-            }
-
-            let previewUrl;
-            if (domain) {
-              previewUrl = `https://${domain}/previews/pr-${prNumber}/`;
-            } else if (`${owner}.github.io` === repo) {
-              previewUrl = `https://${owner}.github.io/previews/pr-${prNumber}/`;
-            } else {
-              previewUrl = `https://${owner}.github.io/${repo}/previews/pr-${prNumber}/`;
-            }
-
-            const body = `${marker}\nPreview: ${previewUrl}`;
+            const body = `${marker}\nPreview: ${process.env.PREVIEW_URL}`;
+            const { owner, repo } = context.repo;
+            const issueNumber = context.payload.pull_request.number;
             const { data: comments } = await github.rest.issues.listComments({
               owner,
               repo,
-              issue_number: prNumber,
+              issue_number: issueNumber,
               per_page: 100,
             });
             const existing = comments.find((comment) => comment.body && comment.body.includes(marker));
@@ -79,71 +171,57 @@ jobs:
               await github.rest.issues.createComment({
                 owner,
                 repo,
-                issue_number: prNumber,
+                issue_number: issueNumber,
                 body,
               });
             }
 
-  build:
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-    env:
-      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY || vars.NEXT_PUBLIC_POSTHOG_KEY }}
-      NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST || vars.NEXT_PUBLIC_POSTHOG_HOST }}
-      NEXT_PUBLIC_POSTHOG_DEBUG: ${{ secrets.NEXT_PUBLIC_POSTHOG_DEBUG || vars.NEXT_PUBLIC_POSTHOG_DEBUG }}
-    steps:
-      - name: Checkout PR head
-        uses: actions/checkout@v4
+      - name: Comment debug log on failure
+        if: failure()
+        uses: actions/github-script@v7
         with:
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Compute preview base path
-        id: preview
-        run: |
-          repo_name="${GITHUB_REPOSITORY#*/}"
-          owner="${GITHUB_REPOSITORY%/*}"
-          pr_number="${{ github.event.number }}"
-          if [ -f public/CNAME ]; then
-            domain="$(cat public/CNAME | tr -d '[:space:]')"
-            base_path="/previews/pr-${pr_number}"
-            preview_url="https://${domain}/previews/pr-${pr_number}/"
-          elif [ "${repo_name}" = "${owner}.github.io" ]; then
-            base_path="/previews/pr-${pr_number}"
-            preview_url="https://${owner}.github.io/previews/pr-${pr_number}/"
-          else
-            base_path="/${repo_name}/previews/pr-${pr_number}"
-            preview_url="https://${owner}.github.io/${repo_name}/previews/pr-${pr_number}/"
-          fi
-          echo "NEXT_PUBLIC_BASE_PATH=${base_path}" >> "$GITHUB_ENV"
-          echo "PREVIEW_URL=${preview_url}" >> "$GITHUB_ENV"
-          echo "preview_url=${preview_url}" >> "$GITHUB_OUTPUT"
-
-      - name: Build static site
-        run: npm run build
-      - name: Upload preview artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: pr-preview
-          path: out
-          if-no-files-found: error
+          script: |
+            const fs = require("fs");
+            const marker = '<!-- pr-preview -->';
+            let content = "";
+            try {
+              content = fs.readFileSync("debug.log", "utf8");
+            } catch (error) {
+              content = `debug.log missing: ${error.message}`;
+            }
+            const limit = 6000;
+            if (content.length > limit) {
+              content = `...truncated to last ${limit} chars\n` + content.slice(-limit);
+            }
+            const body = `${marker}\nPreview failed. Debug log:\n\`\`\`\n${content}\n\`\`\``;
+            const { owner, repo } = context.repo;
+            const issueNumber = context.payload.pull_request.number;
+            const { data: comments } = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) => comment.body && comment.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: issueNumber,
+                body,
+              });
+            }
 
   cleanup:
-    if: github.event_name == 'pull_request_target' && github.event.action == 'closed'
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout gh-pages
         env:

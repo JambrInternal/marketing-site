@@ -17,11 +17,32 @@ concurrency:
 
 jobs:
   deploy:
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.pull_requests[0].number && github.event.workflow_run.event == 'pull_request'
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'pull_request'
     runs-on: ubuntu-latest
-    env:
-      PR_NUMBER: ${{ github.event.workflow_run.pull_requests[0].number }}
     steps:
+      - name: Resolve PR number
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const pullRequests = context.payload.workflow_run.pull_requests || [];
+            if (pullRequests.length) {
+              core.setOutput("number", pullRequests[0].number);
+              return;
+            }
+            const { owner, repo } = context.repo;
+            const sha = context.payload.workflow_run.head_sha;
+            const { data } = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner,
+              repo,
+              commit_sha: sha,
+            });
+            if (!data.length) {
+              core.setFailed(`No pull request found for ${sha}`);
+              return;
+            }
+            core.setOutput("number", data[0].number);
+
       - name: Download preview artifact
         uses: actions/download-artifact@v4
         with:
@@ -30,6 +51,8 @@ jobs:
           path: out
 
       - name: Compute preview URL
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
           repo_name="${GITHUB_REPOSITORY#*/}"
           owner="${GITHUB_REPOSITORY%/*}"
@@ -66,6 +89,8 @@ jobs:
           fi
 
       - name: Sync preview output
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
           preview_dir=".gh-pages/previews/pr-${PR_NUMBER}"
           rm -rf "${preview_dir}"
@@ -82,6 +107,8 @@ jobs:
           touch .gh-pages/.nojekyll
 
       - name: Commit preview
+        env:
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         run: |
           cd .gh-pages
           git add --all
@@ -102,7 +129,7 @@ jobs:
         uses: actions/github-script@v7
         env:
           PREVIEW_URL: ${{ env.PREVIEW_URL }}
-          PR_NUMBER: ${{ env.PR_NUMBER }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
         with:
           script: |
             const marker = '<!-- pr-preview -->';

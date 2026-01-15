@@ -1,5 +1,5 @@
 import Footer from "../../components/Footer";
-import BookCallLink from "../../components/BookCallLink";
+import BookingForm from "../../components/BookingForm";
 
 export const metadata = {
   title: "Book a call | Agent Maple",
@@ -33,14 +33,8 @@ export default function BookPage() {
           </div>
           <div className="card" id="schedule">
             <h3>Scheduling</h3>
-            <p>Use the link below to book a time.</p>
-            <BookCallLink
-              className="btn"
-              href="https://calendar.app.google/48BjSXGNeWYYGK839"
-              location="book_page_schedule"
-            >
-              Book a 25-min call
-            </BookCallLink>
+            <p>Enter a work email, then book a time.</p>
+            <BookingForm />
           </div>
         </div>
       </section>

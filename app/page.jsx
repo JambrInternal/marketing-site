@@ -18,7 +18,7 @@ export default function HomePage() {
           <div>
             <h1>Never wait on&#8209;site for info&nbsp;again.</h1>
             <p className="lead">
-              Agent Maple is an on-site agent for trades and field teams. It
+              Agent Maple is an on-site AI agent for trades and field teams. It
               answers calls and texts from your crew, handles scheduling and
               documentation inquiries, and escalates to a human when needed.
             </p>

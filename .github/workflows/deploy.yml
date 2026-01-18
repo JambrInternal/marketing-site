@@ -16,12 +16,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
       NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.NEXT_PUBLIC_POSTHOG_KEY || vars.NEXT_PUBLIC_POSTHOG_KEY }}
       NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST || vars.NEXT_PUBLIC_POSTHOG_HOST }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Set base path
+        run: |
+          repo_name="${GITHUB_REPOSITORY##*/}"
+          if [ -f public/CNAME ]; then
+            echo "NEXT_PUBLIC_BASE_PATH=/" >> "$GITHUB_ENV"
+          else
+            echo "NEXT_PUBLIC_BASE_PATH=/$repo_name" >> "$GITHUB_ENV"
+          fi
 
       - name: Setup Node
         uses: actions/setup-node@v4

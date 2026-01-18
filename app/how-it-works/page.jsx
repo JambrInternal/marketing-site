@@ -54,7 +54,7 @@ export default function HowItWorksPage() {
               <p>Routine requests are handled without pulling leaders off the job.</p>
             </div>
             <div className="card">
-              <h3>Stay aligned with other foremen</h3>
+              <h3>Stay aligned with other teams</h3>
               <p>Updates and answers stay consistent across crews.</p>
             </div>
             <div className="card">

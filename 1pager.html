@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Agent Maple | 1-Pager</title>
+    <meta
+      name="description"
+      content="Agent Maple answers calls and texts for trades and field teams, handles routine requests, and connects with a human when it can't answer."
+    >
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap");
+
+      :root {
+        --ink-900: #0b1e2d;
+        --steel-700: #2f4c5f;
+        --gray-500: #6f7a83;
+        --gray-300: #c7cdd3;
+        --paper-50: #f7f8fa;
+        --accent-600: #c76b2a;
+        --border: #d1d6db;
+        --radius: 8px;
+        --max-width: 1020px;
+        --space-1: 8px;
+        --space-2: 12px;
+        --space-3: 16px;
+        --space-4: 24px;
+        --space-5: 32px;
+        --space-6: 48px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "IBM Plex Sans", "Trebuchet MS", sans-serif;
+        color: var(--ink-900);
+        background-color: var(--paper-50);
+        background-image:
+          linear-gradient(rgba(11, 30, 45, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(11, 30, 45, 0.04) 1px, transparent 1px);
+        background-size: 24px 24px;
+        line-height: 1.6;
+        text-wrap: pretty;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .wrap {
+        width: min(100% - 32px, var(--max-width));
+        margin: 0 auto;
+      }
+
+      .hero {
+        background: linear-gradient(120deg, #0b1e2d 0%, #2f4c5f 100%);
+        color: #ffffff;
+        padding: var(--space-6) 0 var(--space-5);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+      }
+
+      .brand img {
+        height: 36px;
+      }
+
+      .tagline {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .hero-grid {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      h1 {
+        margin: 0 0 var(--space-2);
+        font-size: clamp(2rem, 2.6vw + 1rem, 3rem);
+        line-height: 1.15;
+      }
+
+      h2 {
+        margin: 0 0 var(--space-2);
+        font-size: 1.35rem;
+      }
+
+      h3 {
+        margin: 0 0 var(--space-2);
+        font-size: 1.1rem;
+      }
+
+      p {
+        margin: 0 0 var(--space-2);
+      }
+
+      .lead {
+        font-size: 1.1rem;
+        max-width: 48ch;
+      }
+
+      .small {
+        font-size: 0.95rem;
+        color: var(--gray-500);
+      }
+
+      .checklist,
+      .list,
+      .steps {
+        margin: var(--space-2) 0 0;
+        padding-left: 18px;
+      }
+
+      .checklist li,
+      .list li,
+      .steps li {
+        margin-bottom: 8px;
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 18px;
+        margin-top: var(--space-3);
+        border-radius: var(--radius);
+        background: var(--accent-600);
+        color: #ffffff;
+        font-weight: 600;
+        border: 1px solid var(--accent-600);
+      }
+
+      .btn:hover {
+        background: #b75f24;
+        border-color: #b75f24;
+      }
+
+      .hero-side {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        padding: var(--space-3);
+        border-radius: var(--radius);
+      }
+
+      .hero-side .small {
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+      main {
+        background: var(--paper-50);
+      }
+
+      .section {
+        padding: var(--space-5) 0;
+        border-bottom: 1px solid var(--border);
+        background: var(--paper-50);
+      }
+
+      .section:last-of-type {
+        border-bottom: none;
+      }
+
+      .grid {
+        display: grid;
+        gap: var(--space-4);
+      }
+
+      .footer {
+        padding: var(--space-4) 0 var(--space-5);
+        background: var(--paper-50);
+      }
+
+      .footer p {
+        color: var(--gray-500);
+      }
+
+      @media (min-width: 900px) {
+        .hero-grid {
+          grid-template-columns: 3fr 2fr;
+          align-items: start;
+        }
+
+        .grid.two {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media print {
+        body {
+          background: #ffffff;
+          color: #000000;
+        }
+
+        .hero {
+          background: #ffffff;
+          color: #000000;
+          padding: 24px 0;
+        }
+
+        .hero-side {
+          background: #ffffff;
+          border-color: #cccccc;
+        }
+
+        .tagline,
+        .hero-side .small,
+        .small,
+        .footer p {
+          color: #000000;
+        }
+
+        .btn {
+          background: #ffffff;
+          color: #000000;
+          border-color: #000000;
+        }
+
+        a {
+          color: #000000;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div class="wrap">
+          <div class="brand">
+            <img
+              src="public/brand/agent-maple-lockup-mono-white.png"
+              alt="Agent Maple"
+            >
+            <div class="tagline">Nobody knows everything. Agent Maple helps you get answers.</div>
+          </div>
+          <div class="hero-grid">
+            <div>
+              <h1>Never wait for information on-site ever again.</h1>
+              <p class="lead">
+                Agent Maple answers calls and texts 24/7. It handles routine requests
+                and connects with a human when it can't answer.
+              </p>
+              <ul class="checklist">
+                <li>Fewer missed calls and fewer interruptions</li>
+                <li>Fast response for crews and the office</li>
+                <li>A calmer office and happier crew</li>
+              </ul>
+              <a class="btn" href="https://calendar.app.google/48BjSXGNeWYYGK839">
+                Book a 25-min call
+              </a>
+              <p class="small">Talk with the founders.</p>
+            </div>
+            <div class="hero-side">
+              <h3>What it handles</h3>
+              <ul class="list">
+                <li>Information inquiries</li>
+                <li>Scheduling changes</li>
+                <li>Updates to drawings</li>
+                <li>Contact information</li>
+              </ul>
+              <p class="small">It learns who you are, how you work, and what you need.</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section">
+          <div class="wrap grid two">
+            <div>
+              <h2>The problem</h2>
+              <ul class="list">
+                <li>Missed calls mean lost jobs.</li>
+                <li>Owners get pulled into routine questions all day.</li>
+                <li>Office staff is the bottleneck and burns out.</li>
+                <li>Crews need quick answers, not delays.</li>
+              </ul>
+            </div>
+            <div>
+              <h2>What it does</h2>
+              <ul class="list">
+                <li>Answers every call and text.</li>
+                <li>Handles routine requests without delay.</li>
+                <li>Connects with a human when it can't answer.</li>
+                <li>Works by your rules and coverage hours.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="wrap grid two">
+            <div>
+              <h2>Why teams choose it</h2>
+              <ul class="list">
+                <li>Supports your staff, does not replace them.</li>
+                <li>Founder-led and accountable.</li>
+                <li>Plain language, not scripts or buzzwords.</li>
+              </ul>
+            </div>
+            <div>
+              <h2>Who it fits</h2>
+              <ul class="list">
+                <li>HVAC, plumbing, electrical, and mechanical contractors.</li>
+                <li>Field service and maintenance teams.</li>
+                <li>Utilities and industrial operators with on-call coverage.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="wrap">
+          <p class="small">
+            Agent Maple keeps calls covered so your crew can focus on the job.
+          </p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -28,6 +28,11 @@ const posthogDebugSnippet = posthogDebug
     )};if(!hasKey){console.info(prefix,"disabled (missing key)");return;}console.info(prefix,"key present","host",host);var checks=0;var interval=setInterval(function(){checks+=1;var ph=window.posthog;if(checks===1){console.info(prefix,"stub present",!!ph);}if(ph&&ph.__loaded){console.info(prefix,"library loaded");clearInterval(interval);return;}if(checks>=20){console.warn(prefix,"not loaded after 10s");clearInterval(interval);}},500);})();`
   : "";
 
+const apolloSnippet = `function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");
+o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,
+o.onload=function(){window.trackingFunctions.onLoad({appId:"68fd0f55e16918000d8b9b5b"})},
+document.head.appendChild(o)}initApollo();`;
+
 export const metadata = {
   title: "Agent Maple",
   description:
@@ -92,6 +97,11 @@ export default function RootLayout({ children }) {
             }}
           />
         )}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: apolloSnippet
+          }}
+        />
       </head>
       <body>
         <a className="skip-link" href="#main">
